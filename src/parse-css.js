@@ -2,7 +2,7 @@ import fs from "fs";
 import { parse } from "css";
 
 
-const cssString = fs.readFileSync("./public/tailwind-output.css", "utf8");
+const cssString = fs.readFileSync("./dist/tailwind-output.css", "utf8");
 
 const obj = parse(cssString);
 const classes = {};
@@ -288,4 +288,4 @@ function organizeClasses(classes, sectionMapping) {
 const sections = organizeClasses(classes, sectionMapping);
 
 
-fs.writeFileSync("./public/sections.json", JSON.stringify(sections, null, 2));
+fs.writeFileSync("./dist/sections.json", JSON.stringify(sections, null, 2));
