@@ -1,14 +1,12 @@
 {
   "name": "tailwindcheatsheet",
-  "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview",
-    "build:css": "postcss src/tailwind-output.css -o public/tailwind-output.css"
+    "preview": "vite preview"
   },
   "dependencies": {
     "css": "^3.0.0",
@@ -16,7 +14,6 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@types/css": "^0.0.37",
     "@types/node": "^20.12.8",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",

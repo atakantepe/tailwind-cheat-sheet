@@ -1,7 +1,12 @@
 # Tailwind Cheat Sheet
 
 This project is currently in the initiation phase and does not have any released versions yet. It aims to provide a user friendly Tailwind CSS cheat sheet using React and Vite.
-This project will also include the parser for Tailwind CSS.
+
+
+## Tailwind CSS Parser
+
+This project utilizes the [Tailwind CSS Parser](https://github.com/atakantepe/tailwindcss-parser) that I built. It's a robust and efficient parser for Tailwind CSS.
+
 
 ## Contributing
 

@@ -13,7 +13,7 @@ interface Category {
 }
 
 const fetchCategory = async (category: string): Promise<Category> => {
-  const response = await fetch(`./dist/${category}.json`);
+  const response = await fetch(`src/data/${category}.json`);
   const data: Category = await response.json();
   return data;
 };
