@@ -41,7 +41,7 @@ const ClassesList: React.FC = () => {
       "transforms",
       "interactivity",
       "svg",
-      "accessibility",
+      "accessibility","other",
     ];
     const fetchData = async () => {
       const result: { [key: string]: Category } = {};
@@ -91,7 +91,7 @@ const ClassesList: React.FC = () => {
                 onClick={() => toggleSubcategory(category, subcategory)}
                 className={`cursor-pointer pb-2 ${expandedSubcategories[category]?.[subcategory] ? 'border-b-0' : 'border-b border-white/10'}`}
                 >
-                <span className="text-sm font-light leading-[normal]">
+                <span className="text-sm font-light leading-[normal] capitalize">
                   {subcategory}
                 </span>
               </div>
@@ -119,7 +119,7 @@ const ClassesList: React.FC = () => {
                                 "linear-gradient(90deg, rgba(169, 199, 255, 0.01) 0%, rgba(1, 83, 236, 0.02) 100%)",
                             }}
                           >
-                            <td className="text-start font-light text-sm text-[#dae7ff] px-2 py-2 select-all">
+                            <td className="text-start font-light text-sm text-[#dae7ff] px-2 py-2 select-all whitespace-nowrap">
                               {className}
                             </td>
                             <td className="text-start font-light text-sm text-[#72afff] px-2 py-2 select-all">
