@@ -20,7 +20,6 @@ const fetchCategory = async (category: string): Promise<Category> => {
 
 const ClassesList: React.FC = () => {
   const [data, setData] = useState<{ [key: string]: Category }>({});
-  const [expandedCategories, setExpandedCategories] = useState<{ [key: string]: boolean }>({});
   const [expandedSubcategories, setExpandedSubcategories] = useState<{ [key: string]: { [key: string]: boolean } }>({});
 
   useEffect(() => {
@@ -35,12 +34,7 @@ const ClassesList: React.FC = () => {
     fetchData();
   }, []);
 
-  const toggleCategory = (category: string) => {
-    setExpandedCategories(prevState => ({
-      ...prevState,
-      [category]: !prevState[category],
-    }));
-  };
+
 
   const toggleSubcategory = (category: string, subcategory: string) => {
     setExpandedSubcategories(prevState => ({
@@ -59,19 +53,18 @@ const ClassesList: React.FC = () => {
 
   const renderColumn = (column: string[]) => (
     column.map((category) => (
-      <div key={category} className="mb-6">
-        <h2 onClick={() => toggleCategory(category)} className="cursor-pointer text-lg font-semibold">
+      <div key={category} className="w-full flex flex-col items-start text-start p-5 gap-3 rounded-lg border border-white/10 backdrop-blur-[2px] text-white" style={{background:'linear-gradient(0deg, rgba(54, 84, 139, 0.18) 0%, rgba(0, 44, 125, 0.18) 0.01%, rgba(1, 45, 138, 0.18) 100%)'}}>
+        <span className="block capitalize">
           {category}
-        </h2>
-        {expandedCategories[category] && (
-          <div className="ml-4">
+        </span>
+        <div className="">
             {Object.keys(data[category]).map((subcategory) => (
-              <div key={subcategory} className="mb-4">
-                <h3 onClick={() => toggleSubcategory(category, subcategory)} className="cursor-pointer text-md font-medium">
+              <div key={subcategory} className="mb-2">
+                <span onClick={() => toggleSubcategory(category, subcategory)} className="cursor-pointer">
                   {subcategory}
-                </h3>
+                </span>
                 {expandedSubcategories[category]?.[subcategory] && (
-                  <ul className="ml-4 list-disc">
+                  <ul className="m-0 p-0">
                     {Object.entries(data[category][subcategory]).map(([className, classProperties]) => (
                       <li key={className}>{className}: {classProperties}</li>
                     ))}
@@ -80,20 +73,19 @@ const ClassesList: React.FC = () => {
               </div>
             ))}
           </div>
-        )}
       </div>
     ))
   );
 
   return (
     <div className="flex flex-wrap w-full">
-      <div className="w-full sm:w-1/2 md:w-4/12 p-8">
+      <div className="w-full sm:w-1/2 lg:w-4/12 p-4 flex flex-col gap-8">
         {renderColumn(column1)}
       </div>
-      <div className="w-full sm:w-1/2 md:w-4/12 p-8">
+      <div className="w-full sm:w-1/2 lg:w-4/12 p-4 flex flex-col gap-8">
         {renderColumn(column2)}
       </div>
-      <div className="w-full sm:w-1/2 md:w-4/12 p-8">
+      <div className="w-full  lg:w-4/12 p-4 flex flex-col gap-8">
         {renderColumn(column3)}
       </div>
     </div>
