@@ -5,7 +5,7 @@ This project is currently in the initiation phase and does not have any released
 
 ## Tailwind CSS Parser
 
-This project utilizes the [Tailwind CSS Parser](https://github.com/atakantepe/tailwindcss-parser) that I built. It's a robust and efficient parser for Tailwind CSS.
+This project utilizes the [Tailwind CSS Parser](https://github.com/atakantepe/tailwindcss-parser) that I built.
 
 
 ## Contributing
