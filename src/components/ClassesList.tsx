@@ -1,89 +1,101 @@
-import React, { useState, useEffect } from "react";
-import ClassesCard from "./ClassesCard";
+import React, { useState, useEffect } from 'react';
+
+interface ClassItem {
+  [key: string]: string;
+}
+
+interface Subcategory {
+  [key: string]: ClassItem;
+}
+
+interface Category {
+  [key: string]: Subcategory;
+}
+
+const fetchCategory = async (category: string): Promise<Category> => {
+  const response = await fetch(`./dist/${category}.json`);
+  const data: Category = await response.json();
+  return data;
+};
 
 const ClassesList: React.FC = () => {
-  // const [sections, setSections] = useState({});
-  // const [openSection, setOpenSection] = useState(null);
-  // const [openSubsection, setOpenSubsection] = useState(null);
+  const [data, setData] = useState<{ [key: string]: Category }>({});
+  const [expandedCategories, setExpandedCategories] = useState<{ [key: string]: boolean }>({});
+  const [expandedSubcategories, setExpandedSubcategories] = useState<{ [key: string]: { [key: string]: boolean } }>({});
 
-  // useEffect(() => {
-  //   const sectionNames = [
-  //     "layout",
-  //     "background",
-  //     "accessibility",
-  //     "effects",
-  //     "filters",
-  //     "borders",
-  //     "flexboxGrid",
-  //     "interactivity",
-  //     "spacing",
-  //     "sizing",
-  //     "typography",
-  //     "transforms",
-  //     "transitionsAnimations",
-  //     "svg",
-  //     "tables",
-  //     "other",
-  //   ]; 
+  useEffect(() => {
+    const categories = ['layout', 'flexboxGrid', 'spacing', 'sizing', 'typography', 'backgrounds', 'borders', 'effects', 'filters', 'tables', 'transitions and animations', 'transforms', 'interactivity', 'svg', 'accessibility'];
+    const fetchData = async () => {
+      const result: { [key: string]: Category } = {};
+      for (const category of categories) {
+        result[category] = await fetchCategory(category);
+      }
+      setData(result);
+    };
+    fetchData();
+  }, []);
 
-  //   Promise.all(
-  //     sectionNames.map((section) =>
-  //       fetch(`https://api.example.com/${section}`)
-  //         .then(response => {
-  //           if (!response.ok) {
-  //             throw new Error(`HTTP error! status: ${response.status}`);
-  //           }
-  //           return response.json();
-  //         })
-  //         .then(data => setSections(data))
-  //         .catch(error => console.log('Fetch error: ', error))
-  //     )
-  //   ).then((data) => {
-  //     const newSections = data.reduce((result, sectionData, index) => {
-  //       result[sectionNames[index]] = sectionData;
-  //       return result;
-  //     }, {});
-  //     setSections(newSections);
-  //   });
-  // }, []);
+  const toggleCategory = (category: string) => {
+    setExpandedCategories(prevState => ({
+      ...prevState,
+      [category]: !prevState[category],
+    }));
+  };
 
-  // const handleSectionClick = (section) => {
-  //   setOpenSection(openSection === section ? null : section);
-  //   setOpenSubsection(null);
-  // };
+  const toggleSubcategory = (category: string, subcategory: string) => {
+    setExpandedSubcategories(prevState => ({
+      ...prevState,
+      [category]: {
+        ...prevState[category],
+        [subcategory]: !prevState[category]?.[subcategory],
+      },
+    }));
+  };
 
-  // const handleSubsectionClick = (subsection) => {
-  //   setOpenSubsection(openSubsection === subsection ? null : subsection);
-  // };
+  const categories = Object.keys(data);
+  const column1 = categories.filter((_, index) => index % 3 === 0);
+  const column2 = categories.filter((_, index) => index % 3 === 1);
+  const column3 = categories.filter((_, index) => index % 3 === 2);
 
-  return (
-    <div className="flex flex-wrap">
-      {/* {Object.entries(sections).map(([section, subsections]) => (
-        <div key={section} className="w-full lg:w-4/12">
-          <h2 onClick={() => handleSectionClick(section)}>{section}</h2>
-          {openSection === section &&
-            Object.entries(subsections).map(([subsection, classes]) => (
-              <div key={subsection}>
-                <h3 onClick={() => handleSubsectionClick(subsection)}>
-                  {subsection}
+  const renderColumn = (column: string[]) => (
+    column.map((category) => (
+      <div key={category} className="mb-6">
+        <h2 onClick={() => toggleCategory(category)} className="cursor-pointer text-lg font-semibold">
+          {category}
+        </h2>
+        {expandedCategories[category] && (
+          <div className="ml-4">
+            {Object.keys(data[category]).map((subcategory) => (
+              <div key={subcategory} className="mb-4">
+                <h3 onClick={() => toggleSubcategory(category, subcategory)} className="cursor-pointer text-md font-medium">
+                  {subcategory}
                 </h3>
-                {openSubsection === subsection && (
-                  <div>
-                    {Object.entries(classes).map(([className, properties]) => (
-                      <ClassesCard
-                        key={className}
-                        className={className}
-                        properties={properties
-                          .split(";")
-                          .map((prop) => prop.trim())}
-                      />
+                {expandedSubcategories[category]?.[subcategory] && (
+                  <ul className="ml-4 list-disc">
+                    {Object.entries(data[category][subcategory]).map(([className, classProperties]) => (
+                      <li key={className}>{className}: {classProperties}</li>
                     ))}
-                  </div>
+                  </ul>
                 )}
               </div>
             ))}
-        </div>
-      ))} */}
+          </div>
+        )}
+      </div>
+    ))
+  );
+
+  return (
+    <div className="flex flex-wrap w-full">
+      <div className="w-full sm:w-1/2 md:w-4/12 p-8">
+        {renderColumn(column1)}
+      </div>
+      <div className="w-full sm:w-1/2 md:w-4/12 p-8">
+        {renderColumn(column2)}
+      </div>
+      <div className="w-full sm:w-1/2 md:w-4/12 p-8">
+        {renderColumn(column3)}
+      </div>
     </div>
   );
 };
