@@ -155,13 +155,20 @@ const ClassesList: React.FC = () => {
         <div className="flex flex-col w-full">
             <div className="flex flex-col w-full px-4 max-w-[700px] mx-auto">
                 <div className="flex w-full flex-col gap-4">
-                    <h1 className="text-white text-3xl font-light mb-6">Tailwind CSS Cheat Sheet</h1>
+                    <h1 className="text-white text-3xl font-light mb-8">Tailwind CSS Cheat Sheet</h1>
                 </div>
-                <div className="w-full relative">
-                    <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder="Search" className="mb-4 px-5 py-2.5 text-md leading-6 pr-[310px] border border-white/10 backdrop-blur-[2px] rounded-full w-full hover:border-white/20 focus:outline-none focus:ring-1 focus:ring-white/60 text-white " style={{background:'linear-gradient(0deg, rgba(54, 84, 139, 0.18) 0%, rgba(0, 44, 125, 0.18) 0.01%, rgba(1, 45, 138, 0.18) 100%)'}} />
-                    <div className="md:absolute md:py-0 py-4 flex justify-end w-full md:w-auto right-[12px] top-[50%] -mt-5 flex items-center gap-2">
+                <div className="w-full relative mb-6">
+                    <input
+                        type="text"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        placeholder="Search"
+                        className="mb-4 px-5 py-2.5 text-md leading-6 pr-[310px] border border-white/10 backdrop-blur-[2px] rounded-full w-full hover:border-white/20 focus:outline-none focus:ring-1 focus:ring-white/60 text-white "
+                        style={{ background: 'linear-gradient(0deg, rgba(54, 84, 139, 0.18) 0%, rgba(0, 44, 125, 0.18) 0.01%, rgba(1, 45, 138, 0.18) 100%)' }}
+                    />
+                    <div className="md:absolute md:py-0 py-4 flex justify-end w-full md:w-auto right-[16px] top-[50%] -mt-5 flex items-center gap-2">
                         <label className="flex items-center gap-1 text-white/80">
-                            <input type="radio" value="All" checked={searchOption === 'All'} onChange={(e) => setSearchOption(e.target.value)} className="" />
+                            <input type="radio" value="All" checked={searchOption === 'All'} onChange={(e) => setSearchOption(e.target.value)} />
                             All
                         </label>
                         <label className="flex items-center gap-1 text-white/80">
