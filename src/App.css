@@ -4,26 +4,46 @@
   padding: 2rem;
   text-align: center;
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
 }
 
 body {
-  background: radial-gradient(100% 100% at 50% 0%, #010E3D 0%, #00061C 33%, #00030E 100%);
-  font-family: 'Inter', sans-serif;
+  background: radial-gradient(100% 100% at 50% 0%, #ffffff 0%, #f9fcff 33%, #f6fcff 100%);
+  font-family: "Inter", sans-serif;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
 }
-
+.dark body {
+  background: radial-gradient(100% 100% at 50% 0%, #010e3d 0%, #00061c 33%, #00030e 100%);
+}
 ::-webkit-scrollbar {
-  width: .45rem;
+  width: 0.45rem;
   cursor: pointer;
 }
- 
+
 ::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-  background-color: #010E3D;
+  box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.1);
+  background-color: #feffff;
 }
- 
+
 ::-webkit-scrollbar-thumb {
-  background-color: #36548B;
+  background-color: #c9d8ff;
+  border-radius: 2px;
+}
+
+.dark ::-webkit-scrollbar {
+  width: 0.45rem;
+  cursor: pointer;
+}
+
+.dark ::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #010e3d;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background-color: #36548b;
   border-radius: 2px;
   outline: 1px solid rgba(255, 255, 255, 0.1);
 }

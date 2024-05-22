@@ -12,14 +12,17 @@ interface Category {
     [key: string]: Subcategory;
 }
 
+interface ClassesListProps {
+    isDarkMode: boolean;
+  }
+
 const fetchCategory = async (category: string): Promise<Category> => {
     const response = await fetch(`src/data/${category}.json`);
     const data: Category = await response.json();
     return data;
 };
 
-const ClassesList: React.FC = () => {
-    const [data, setData] = useState<{ [key: string]: Category }>({});
+const ClassesList: React.FC<ClassesListProps> = ({ isDarkMode }) => {    const [data, setData] = useState<{ [key: string]: Category }>({});
     const [expandedSubcategories, setExpandedSubcategories] = useState<{
         [key: string]: { [key: string]: boolean };
     }>({});
@@ -106,25 +109,23 @@ const ClassesList: React.FC = () => {
         column.map((category) => (
             <div
                 key={category}
-                className="w-full flex flex-col items-start text-start p-5 gap-3 rounded-md border border-white/10 backdrop-blur-[2px] text-white"
-                style={{
-                    background: 'linear-gradient(0deg, rgba(54, 84, 139, 0.18) 0%, rgba(0, 44, 125, 0.18) 0.01%, rgba(1, 45, 138, 0.18) 100%)'
-                }}
+                className="w-full flex flex-col items-start text-start p-5 gap-3 rounded-md border border-zinc-300 dark:border-white/10 backdrop-blur-[2px] text-zinc-950 dark:text-white"
+                style={{ background: isDarkMode ? 'linear-gradient(0deg, rgba(1, 6, 29, 0.12) 0%, rgba(0, 87, 255, 0.05) 0.01%, rgba(0, 117, 255, 0.07) 100%)':'#fff' }}
             >
                 <span className="block capitalize mb-2">{category}</span>
-                <div className="w-full p-[0.875rem] rounded-md bg-[rgba(255,255,255,0.05)] border border-white/10">
+                <div className="w-full p-[0.875rem] rounded-md   bg-blue-50/10 dark:bg-[rgba(255,255,255,0.05)] border border-zinc-300 dark:border-white/10">
                     {Object.keys(filteredData[category]).map((subcategory) => (
-                        <div key={subcategory} className={`mb-2  ${expandedSubcategories[category]?.[subcategory] ? 'border-b border-white/10 pb-2' : ''}`}>
-                            <div onClick={() => toggleSubcategory(category, subcategory)} className={`cursor-pointer pb-2 ${expandedSubcategories[category]?.[subcategory] ? 'border-b-0' : 'border-b border-white/10'}`}>
+                        <div key={subcategory} className={`mb-2  ${expandedSubcategories[category]?.[subcategory] ? 'border-b border-zinc-300 dark:border-white/10 pb-2' : ''}`}>
+                            <div onClick={() => toggleSubcategory(category, subcategory)} className={`cursor-pointer pb-2 ${expandedSubcategories[category]?.[subcategory] ? 'border-b-0' : 'border-b border-zinc-200 dark:border-white/10'}`}>
                                 <span className="text-sm font-light leading-[normal] capitalize">{subcategory}</span>
                             </div>
                             {expandedSubcategories[category]?.[subcategory] && (
                                 <div className="max-h-[360px] overflow-auto pt-3">
                                     <table className="w-full">
                                         <thead>
-                                            <tr className="w-full border-b border-[#1B3678]">
-                                                <th className="text-start font-normal text-sm text-white/80 px-2 py-1">Class</th>
-                                                <th className="text-start font-normal text-sm text-white/80 px-2 py-1">Properties</th>
+                                            <tr className="w-full border-b border-zinc-200 dark:border-[#1B3678]">
+                                                <th className="text-start font-normal text-sm text-zinc-950 dark:text-white/80 px-2 py-1">Class</th>
+                                                <th className="text-start font-normal text-sm text-zinc-950 dark:text-white/80 px-2 py-1">Properties</th>
                                             </tr>
                                         </thead>
                                         <tbody className="backdrop-blur-[6px]">
@@ -132,13 +133,13 @@ const ClassesList: React.FC = () => {
                                                 Object.entries(filteredData[category][subcategory]).map(([className, classProperties]) => (
                                                     <tr
                                                         key={className}
-                                                        className=" backdrop-blur-[1px] border-b border-[rgba(81,142,255,0.20)]"
+                                                        className=" backdrop-blur-[1px] border-b border-zinc-200 dark:border-[rgba(81,142,255,0.20)]"
                                                         style={{
-                                                            background: 'linear-gradient(90deg, rgba(169, 199, 255, 0.01) 0%, rgba(1, 83, 236, 0.02) 100%)'
+                                                            background: isDarkMode ?'linear-gradient(90deg, rgba(169, 199, 255, 0.01) 0%, rgba(1, 83, 236, 0.02) 100%)':'#fff'
                                                         }}
                                                     >
-                                                        <td className="text-start font-light text-sm text-[#dae7ff] px-2 py-2 select-all whitespace-nowrap">{className}</td>
-                                                        <td className="text-start font-light text-sm text-[#72afff] px-2 py-2 select-all">{renderClassProperties(classProperties)}</td>
+                                                        <td className="text-start font-light text-sm text-blue-500 dark:text-[#dae7ff] px-2 py-2 select-all whitespace-nowrap">{className}</td>
+                                                        <td className="text-start font-light text-sm text-blue-700 dark:text-[#72afff] px-2 py-2 select-all">{renderClassProperties(classProperties)}</td>
                                                     </tr>
                                                 ))}
                                         </tbody>
@@ -155,7 +156,7 @@ const ClassesList: React.FC = () => {
         <div className="flex flex-col w-full">
             <div className="flex flex-col w-full px-4 max-w-[700px] mx-auto">
                 <div className="flex w-full flex-col gap-4">
-                    <h1 className="text-white text-3xl font-light mb-8">Tailwind CSS Cheat Sheet</h1>
+                    <h1 className="text-zinc-950 dark:text-white text-3xl font-light mb-8">Tailwind CSS Cheat Sheet </h1>
                 </div>
                 <div className="w-full relative mb-6">
                     <input
@@ -163,19 +164,19 @@ const ClassesList: React.FC = () => {
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         placeholder="Search"
-                        className="mb-4 px-5 py-2.5 text-md leading-6 pr-[310px] border border-white/10 backdrop-blur-[2px] rounded-full w-full hover:border-white/20 focus:outline-none focus:ring-1 focus:ring-white/60 text-white "
-                        style={{ background: 'linear-gradient(0deg, rgba(54, 84, 139, 0.18) 0%, rgba(0, 44, 125, 0.18) 0.01%, rgba(1, 45, 138, 0.18) 100%)' }}
+                        className="mb-4 px-5 py-2.5 text-md leading-6 pr-[310px] border border-zinc-300 dark:border-white/10 backdrop-blur-[2px] rounded-full w-full hover:border-zinc-400 dark:hover:border-white/20 focus:outline-none focus:ring-1 focus:ring-zinc-400 dark:focus:ring-white/60 text-zinc-950 dark:text-white "
+                        style={{ background: isDarkMode? 'linear-gradient(0deg, rgba(54, 84, 139, 0.18) 0%, rgba(0, 44, 125, 0.18) 0.01%, rgba(1, 45, 138, 0.18) 100%)':'#fff' }}
                     />
-                    <div className="md:absolute md:py-0 py-4 flex justify-end w-full md:w-auto right-[16px] top-[50%] -mt-5 flex items-center gap-2">
-                        <label className="flex items-center gap-1 text-white/80">
+                    <div className="md:absolute md:py-0 py-4 flex justify-end w-full md:w-auto right-[16px] top-[50%] -mt-5 items-center gap-2">
+                        <label className="flex items-center gap-1 text-zinc-950 dark:text-white/80">
                             <input type="radio" value="All" checked={searchOption === 'All'} onChange={(e) => setSearchOption(e.target.value)} />
                             All
                         </label>
-                        <label className="flex items-center gap-1 text-white/80">
+                        <label className="flex items-center gap-1 text-zinc-950 dark:text-white/80">
                             <input type="radio" value="Only class" checked={searchOption === 'Only class'} onChange={(e) => setSearchOption(e.target.value)} className="" />
                             ClassOnly
                         </label>
-                        <label className="flex items-center gap-1 text-white/80">
+                        <label className="flex items-center gap-1 text-zinc-950 dark:text-white/80">
                             <input type="radio" value="Only property" checked={searchOption === 'Only property'} onChange={(e) => setSearchOption(e.target.value)} className="" />
                             StyleOnly
                         </label>
