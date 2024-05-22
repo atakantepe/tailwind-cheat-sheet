@@ -49,10 +49,10 @@ const ClassesList: React.FC = () => {
     };
 
     const renderClassProperties = (classProperties: ClassItem) => {
-        return classProperties
+        return String(classProperties)
             .split(';')
-            .filter((prop) => prop.trim())
-            .map((prop, index) => <div key={index}>{prop.trim()};</div>);
+            .filter((prop: string) => prop.trim())
+            .map((prop: string, index: number) => <div key={index}>{prop.trim()};</div>);
     };
 
     const filterData = (data: { [key: string]: Category }, query: string, option: string) => {
@@ -68,12 +68,12 @@ const ClassesList: React.FC = () => {
                 const filteredClassItems: ClassItem = {};
 
                 Object.entries(classItems).forEach(([className, classProperties]) => {
-                    if (option === 'All' && (className.toLowerCase().includes(query.toLowerCase()) || classProperties.toLowerCase().includes(query.toLowerCase()))) {
-                        filteredClassItems[className] = classProperties;
+                    if (option === 'All' && (className.toLowerCase().includes(query.toLowerCase()) || String(classProperties).toLowerCase().includes(query.toLowerCase()))) {
+                        filteredClassItems[className] = String(classProperties);
                     } else if (option === 'Only class' && className.toLowerCase().includes(query.toLowerCase())) {
-                        filteredClassItems[className] = classProperties;
-                    } else if (option === 'Only property' && classProperties.toLowerCase().includes(query.toLowerCase())) {
-                        filteredClassItems[className] = classProperties;
+                        filteredClassItems[className] = String(classProperties);
+                    } else if (option === 'Only property' && String(classProperties).toLowerCase().includes(query.toLowerCase())) {
+                        filteredClassItems[className] = String(classProperties);
                     }
                 });
 
@@ -83,7 +83,7 @@ const ClassesList: React.FC = () => {
             });
 
             if (Object.keys(filteredSubcategories).length > 0) {
-                filteredData[category] = filteredSubcategories;
+                filteredData[category] = filteredSubcategories as unknown as Category;
             }
         });
 
