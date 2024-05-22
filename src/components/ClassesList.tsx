@@ -24,6 +24,8 @@ const ClassesList: React.FC = () => {
         [key: string]: { [key: string]: boolean };
     }>({});
     const [searchQuery, setSearchQuery] = useState<string>('');
+    const [searchOption, setSearchOption] = useState<string>('All');
+
     useEffect(() => {
         const categories = ['layout', 'flexboxGrid', 'spacing', 'sizing', 'typography', 'backgrounds', 'borders', 'effects', 'filters', 'tables', 'transitions and animations', 'transforms', 'interactivity', 'svg', 'accessibility', 'other'];
         const fetchData = async () => {
@@ -53,7 +55,7 @@ const ClassesList: React.FC = () => {
             .map((prop, index) => <div key={index}>{prop.trim()};</div>);
     };
 
-    const filterData = (data: { [key: string]: Category }, query: string) => {
+    const filterData = (data: { [key: string]: Category }, query: string, option: string) => {
         if (!query) return data;
         const filteredData: { [key: string]: Category } = {};
 
@@ -66,7 +68,11 @@ const ClassesList: React.FC = () => {
                 const filteredClassItems: ClassItem = {};
 
                 Object.entries(classItems).forEach(([className, classProperties]) => {
-                    if (className.toLowerCase().includes(query.toLowerCase()) || classProperties.toLowerCase().includes(query.toLowerCase())) {
+                    if (option === 'All' && (className.toLowerCase().includes(query.toLowerCase()) || classProperties.toLowerCase().includes(query.toLowerCase()))) {
+                        filteredClassItems[className] = classProperties;
+                    } else if (option === 'Only class' && className.toLowerCase().includes(query.toLowerCase())) {
+                        filteredClassItems[className] = classProperties;
+                    } else if (option === 'Only property' && classProperties.toLowerCase().includes(query.toLowerCase())) {
                         filteredClassItems[className] = classProperties;
                     }
                 });
@@ -84,7 +90,7 @@ const ClassesList: React.FC = () => {
         return filteredData;
     };
 
-    const filteredData = filterData(data, searchQuery);
+    const filteredData = filterData(data, searchQuery, searchOption);
 
     const categories = Object.keys(filteredData);
     const column1_3 = categories.filter((_, index) => index % 3 === 0);
@@ -147,9 +153,27 @@ const ClassesList: React.FC = () => {
 
     return (
         <div className="flex flex-col w-full">
-            <div className="flex flex-col w-full">
-                <h3 className="text-white">Search</h3>
-                <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder="Search classes or properties" className="mb-4 p-2 border border-gray-300 rounded" />
+            <div className="flex flex-col w-full px-4 max-w-[700px] mx-auto">
+                <div className="flex w-full flex-col gap-4">
+                    <h1 className="text-white text-3xl font-light mb-6">Tailwind CSS Cheat Sheet</h1>
+                </div>
+                <div className="w-full relative">
+                    <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder="Search" className="mb-4 px-5 py-2.5 text-md leading-6 pr-[310px] border border-white/10 backdrop-blur-[2px] rounded-full w-full hover:border-white/20 focus:outline-none focus:ring-1 focus:ring-white/60 text-white " style={{background:'linear-gradient(0deg, rgba(54, 84, 139, 0.18) 0%, rgba(0, 44, 125, 0.18) 0.01%, rgba(1, 45, 138, 0.18) 100%)'}} />
+                    <div className="md:absolute md:py-0 py-4 flex justify-end w-full md:w-auto right-[12px] top-[50%] -mt-5 flex items-center gap-2">
+                        <label className="flex items-center gap-1 text-white/80">
+                            <input type="radio" value="All" checked={searchOption === 'All'} onChange={(e) => setSearchOption(e.target.value)} className="" />
+                            All
+                        </label>
+                        <label className="flex items-center gap-1 text-white/80">
+                            <input type="radio" value="Only class" checked={searchOption === 'Only class'} onChange={(e) => setSearchOption(e.target.value)} className="" />
+                            ClassOnly
+                        </label>
+                        <label className="flex items-center gap-1 text-white/80">
+                            <input type="radio" value="Only property" checked={searchOption === 'Only property'} onChange={(e) => setSearchOption(e.target.value)} className="" />
+                            StyleOnly
+                        </label>
+                    </div>
+                </div>
             </div>
             <div className="lg:flex w-full">
                 <div className="w-4/12 hidden xl:flex p-4  flex-col gap-8">{renderColumn(column1_3)}</div>
