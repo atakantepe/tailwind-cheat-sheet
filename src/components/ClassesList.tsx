@@ -164,7 +164,7 @@ const ClassesList: React.FC<ClassesListProps> = ({ isDarkMode }) => {    const [
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         placeholder="Search"
-                        className="mb-4 px-5 py-2.5 text-md leading-6 pr-[310px] border border-zinc-300 dark:border-white/10 backdrop-blur-[2px] rounded-full w-full hover:border-zinc-400 dark:hover:border-white/20 focus:outline-none focus:ring-1 focus:ring-zinc-400 dark:focus:ring-white/60 text-zinc-950 dark:text-white "
+                        className="mb-4 px-5 py-2.5 text-md leading-6 md:pr-[310px] border border-zinc-300 dark:border-white/10 backdrop-blur-[2px] rounded-full w-full hover:border-zinc-400 dark:hover:border-white/20 focus:outline-none focus:ring-1 focus:ring-zinc-400 dark:focus:ring-white/60 text-zinc-950 dark:text-white "
                         style={{ background: isDarkMode? 'linear-gradient(0deg, rgba(54, 84, 139, 0.18) 0%, rgba(0, 44, 125, 0.18) 0.01%, rgba(1, 45, 138, 0.18) 100%)':'#fff' }}
                     />
                     <div className="md:absolute md:py-0 py-4 flex justify-end w-full md:w-auto right-[16px] top-[50%] -mt-5 items-center gap-2">
